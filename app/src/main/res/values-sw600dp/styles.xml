@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="VideoListStyle">
+        <item name="android:choiceMode">singleChoice</item>
+    </style>
+
+</resources>

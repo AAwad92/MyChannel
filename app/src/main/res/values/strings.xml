@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">My Channel</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_detail">DetailActivity</string>
+
+    <!--detailMenu Strings-->
+    <string name="action_share">Share</string>
+    <string name="title_activity_you_tube_player">YouTubePlayerActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
