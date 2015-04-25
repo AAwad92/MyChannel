@@ -101,9 +101,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         mShareActionProvider =
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(creteShareVideoIntent());
-        }
+//        if (mShareActionProvider != null) {
+//            mShareActionProvider.setShareIntent(creteShareVideoIntent());
+//        }
     }
 
     private Intent creteShareVideoIntent() {
