@@ -27,7 +27,7 @@
             android:name=".Data.ChannelProvider"
             android:authorities="com.example.android.mychannel.app" />
 
-        
+
     </application>
 
 </manifest>
