@@ -89,7 +89,8 @@ public class FetchVideosTask extends AsyncTask<Void, Void, Void> {
         // parse xml file then add the values to the database
         VideosListXmlParser parser = new VideosListXmlParser();
         List <VideosListXmlParser.Item> channelXmlItems = parser.parse(inputStream);
-
+        //remove the first item from the list because it is not useful
+        channelXmlItems.remove(0);
         // Insert the new videos into the database
         Vector<ContentValues> cVVector = new Vector<ContentValues>(channelXmlItems.size());
         for (VideosListXmlParser.Item item : channelXmlItems) {
@@ -102,6 +103,8 @@ public class FetchVideosTask extends AsyncTask<Void, Void, Void> {
             pubDate = getPubDate( item.pubDate);
             title = item.title;
             thumbnailByte = getBitmapAsByteArray(getThumbnailLinkFromBaseLink(link));
+
+
 
             ContentValues videoValues = new ContentValues();
             videoValues.put(ChannelContract.VideosEntry.COLUMN_LINK,link);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -32,19 +33,17 @@ import com.google.android.youtube.player.YouTubeStandalonePlayer;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
-    // Loader Id
-    private final static int DETAIL_LOADER = 0;
-    // Video Id that we need to play
-    private String mVideoID;
-
+public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     // These indices are tied to CHANNEL_COLUMNS
     static final int COL_VIDEO_ID = 0;
     static final int COL_LINK = 1;
     static final int COL_PUB_DATE = 2;
     static final int COL_TITLE = 3;
     static final int COL_THUMBNAIL_LINK = 4;
-
+    // Tag used with the fragment bundle
+    static final String DETAIL_URI = "URI";
+    // Loader Id
+    private final static int DETAIL_LOADER = 0;
     private static final String LOG_TAG = com.example.android.mychannel.app.DetailFragment.class.getSimpleName();
     private static final String CHANNEL_SHARE_HASHTAG = "#Tai5er";
     private static final String[] CHANNEL_COLUMNS = {
@@ -54,15 +53,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             ChannelContract.VideosEntry.COLUMN_TITLE,
             ChannelContract.VideosEntry.COLUMN_THUMBNAIL
     };
+    // Video Id that we need to play
+    private String mVideoID;
     private ImageView imageView;
     private TextView titleView;
     private TextView pubDateView;
     private String mChannelStr;
-
     private ShareActionProvider mShareActionProvider;
-
-    // Tag used with the fragment bundle
-    static final String DETAIL_URI = "URI";
+    private Uri mUri;
 
 
     public DetailFragment() {
@@ -72,6 +70,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // get the Uri that used to get the cursor to fil the detail fragment
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
+        } else {
+            mUri = getActivity().getIntent().getData();
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         imageView = (ImageView) rootView.findViewById(R.id.detail_image);
         titleView = (TextView) rootView.findViewById(R.id.detail_title);
@@ -116,23 +122,24 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     }
 
     @Override
-    public void onActivityCreated( Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(DETAIL_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        Intent intent = getActivity().getIntent();
-        if (intent == null) {
-            return null;
+        if (null != mUri) {
+            return new CursorLoader(
+                    getActivity(),
+                    mUri,
+                    CHANNEL_COLUMNS,
+                    null,
+                    null,
+                    null
+            );
         }
-        Log.v(LOG_TAG, intent.getData().toString());
-        return new CursorLoader(
-                getActivity(),
-                intent.getData(),
-                CHANNEL_COLUMNS,
-                null, null, null);
+        return null;
     }
 
 
@@ -146,7 +153,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
 
-
         String titleStr = data.getString(COL_TITLE);
         titleView.setText(titleStr);
 
@@ -156,9 +162,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         String linkStr = data.getString(COL_LINK);
         // Set videoID
 
-        mVideoID = linkStr.substring(31,42);;
+        mVideoID = linkStr.substring(31, 42);
+        ;
         byte[] imageByte = data.getBlob(VideoListFragment.COL_THUMBNAIL);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         imageView.setImageBitmap(bitmap);
 
         mChannelStr = titleStr + " - " + pubDateStr + " - " + linkStr;
@@ -171,14 +178,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     }
 
     private String getVideoIdFromLink(String link) {
-        return link.substring(31,42);
+        return link.substring(31, 42);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
-
 
 
 }
