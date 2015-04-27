@@ -34,18 +34,33 @@ import com.google.android.youtube.player.YouTubeStandalonePlayer;
  * A placeholder fragment containing a simple view.
  */
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    // Tag used with the fragment bundle
+    static final String DETAIL_URI = "URI";
+    // Loader Id
+    private final static int DETAIL_LOADER = 0;
+
+    private static final String LOG_TAG = com.example.android.mychannel.app.DetailFragment.class.getSimpleName();
+    private static final String CHANNEL_SHARE_HASHTAG = " #Tai5er";
+
+    private ShareActionProvider mShareActionProvider;
+    private Uri mUri;
+
+    // Video Id that we need to play
+    private String mVideoID;
+    // Detail fragments items
+    private ImageView imageView;
+    private TextView titleView;
+    private TextView pubDateView;
+    private String mChannelStr;
+
     // These indices are tied to CHANNEL_COLUMNS
     static final int COL_VIDEO_ID = 0;
     static final int COL_LINK = 1;
     static final int COL_PUB_DATE = 2;
     static final int COL_TITLE = 3;
     static final int COL_THUMBNAIL_LINK = 4;
-    // Tag used with the fragment bundle
-    static final String DETAIL_URI = "URI";
-    // Loader Id
-    private final static int DETAIL_LOADER = 0;
-    private static final String LOG_TAG = com.example.android.mychannel.app.DetailFragment.class.getSimpleName();
-    private static final String CHANNEL_SHARE_HASHTAG = "#Tai5er";
+
     private static final String[] CHANNEL_COLUMNS = {
             ChannelContract.VideosEntry._ID,
             ChannelContract.VideosEntry.COLUMN_LINK,
@@ -53,14 +68,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             ChannelContract.VideosEntry.COLUMN_TITLE,
             ChannelContract.VideosEntry.COLUMN_THUMBNAIL
     };
-    // Video Id that we need to play
-    private String mVideoID;
-    private ImageView imageView;
-    private TextView titleView;
-    private TextView pubDateView;
-    private String mChannelStr;
-    private ShareActionProvider mShareActionProvider;
-    private Uri mUri;
+
 
 
     public DetailFragment() {

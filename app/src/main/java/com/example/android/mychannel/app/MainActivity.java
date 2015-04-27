@@ -27,6 +27,7 @@ public class MainActivity extends ActionBarActivity implements VideoListFragment
                         .commit();
             } else {
                 mTowPane = false;
+                getSupportActionBar().setElevation(0f);
             }
 
         }
