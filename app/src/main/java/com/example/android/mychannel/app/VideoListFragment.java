@@ -5,10 +5,6 @@ package com.example.android.mychannel.app;
  */
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.android.mychannel.app.Data.ChannelContract;
-import com.example.android.mychannel.app.service.MychaneelService;
+import com.example.android.mychannel.app.sync.MychannelSyncAdapter;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -89,6 +85,8 @@ public class VideoListFragment extends Fragment implements LoaderManager.LoaderC
         mListView = (ListView) rootView.findViewById(R.id.list_view_channel_videos);
         mListView.setAdapter(mVideosAdapter);
 
+        rootView.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView adapterView, View view, int position, long id) {
@@ -105,19 +103,6 @@ public class VideoListFragment extends Fragment implements LoaderManager.LoaderC
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)){
             mPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
-//        // Start Service
-//        Intent serviceIntent = new Intent(getActivity(), MychaneelService.class);
-//        getActivity().startService(serviceIntent);
-
-
-        // Use Alarm manger to set alarm
-        Intent alarmIntent = new Intent(getActivity(), MychaneelService.AlarmReceiver.class);
-
-        PendingIntent pi = PendingIntent.getBroadcast(getActivity(),0 , alarmIntent,PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+5000,pi);
-
         return rootView;
     }
 
@@ -128,8 +113,19 @@ public class VideoListFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     private void updateVideos(){
-        FetchVideosTask task = new FetchVideosTask(getActivity());
-        task.execute();
+        MychannelSyncAdapter.syncImmediately(getActivity());
+        //        // Start Service
+//        Intent serviceIntent = new Intent(getActivity(), MychaneelService.class);
+//        getActivity().startService(serviceIntent);
+
+        // Use Alarm manger to set alarm
+//        Intent alarmIntent = new Intent(getActivity(), MychaneelService.AlarmReceiver.class);
+//
+//        PendingIntent pi = PendingIntent.getBroadcast(getActivity(),0 , alarmIntent,PendingIntent.FLAG_ONE_SHOT);
+//        AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+//
+//        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10,pi);
+
     }
 
     @Override

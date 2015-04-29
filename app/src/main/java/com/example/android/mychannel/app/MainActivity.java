@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class MainActivity extends ActionBarActivity implements VideoListFragment.Callback{
@@ -14,6 +15,7 @@ public class MainActivity extends ActionBarActivity implements VideoListFragment
 
 
     private boolean mTowPane;
+    private View mLoadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,6 @@ public class MainActivity extends ActionBarActivity implements VideoListFragment
                 mTowPane = false;
                 getSupportActionBar().setElevation(0f);
             }
-
         }
     }
 

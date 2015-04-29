@@ -37,6 +37,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     // Tag used with the fragment bundle
     static final String DETAIL_URI = "URI";
+    static final String LOADING_FLAG = "LOADING";
     // Loader Id
     private final static int DETAIL_LOADER = 0;
 

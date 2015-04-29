@@ -3,7 +3,7 @@
 
     <color name="grey">#cccccc</color>
     <color name="myChannel_light_blue">#ff64c2f4</color>
-    <color name="myChannel_blue">#ff1ca8f4</color>
-    <color name="myChannel_dark_blue">#0288D1</color>
+    <color name="myChannel_Purple">#5f5f77</color>
+    <color name="myChannel_dark_Purple">#634163</color>
 
 </resources>

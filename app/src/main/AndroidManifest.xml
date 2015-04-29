@@ -4,6 +4,13 @@
 
     <!-- This permission is necessary in order for app to perform network access. -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permissions required by the sync adapter -->
+    <uses-permission
+        android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
 
     <application
         android:allowBackup="true"
@@ -27,14 +34,36 @@
 
 
         <provider
+            android:authorities="@string/content_authority"
             android:name=".Data.ChannelProvider"
-            android:authorities="com.example.android.mychannel.app" />
+            android:exported="false"
+            android:syncable="true" />
 
-        <service android:name=".service.MychaneelService"/>
+        <!-- SyncAdapter's dummy authentication service -->
+        <!-- SyncAdapter's dummy authentication service -->
+        <service
+            android:name=".sync.MychannelAuthenticatorService"
+            >
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
 
-        <receiver android:name=".service.MychaneelService$AlarmReceiver" android:enabled="true">
-
-        </receiver>
+        <!-- The SyncAdapter service -->
+        <service
+            android:name=".sync.MychannelSyncService"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
 
     </application>
 

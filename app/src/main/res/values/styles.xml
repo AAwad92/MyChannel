@@ -3,8 +3,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/myChannel_blue</item>
-        <item name="colorPrimaryDark">@color/myChannel_dark_blue</item>
+        <item name="colorPrimary">@color/myChannel_Purple</item>
+        <item name="colorPrimaryDark">@color/myChannel_dark_Purple</item>
     </style>
 
     <!--MainActivityTheme-->
